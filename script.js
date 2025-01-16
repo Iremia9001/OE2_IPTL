@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitBtn = document.getElementById("submitBtn");
     const sortCriteria = document.getElementById("sortCriteria");
     const sortOrder = document.getElementById("sortOrder");
+    const searchInput = document.getElementById("searchInput");
 
     let products = [];
     let productToDelete = null;
@@ -24,10 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const name = document.getElementById("productName").value;
         const description = document.getElementById("productDescription").value;
         const price = parseFloat(document.getElementById("productPrice").value).toFixed(2);
+        const rating = parseInt(document.getElementById("productRating").value);
         const imageFile = document.getElementById("productImage").files[0];
 
         const handleProductSave = (imageUrl) => {
-            const product = { name, description, price: parseFloat(price), imageUrl };
+            const product = { name, description, price: parseFloat(price), rating, imageUrl };
 
             if (productToEdit !== null) {
                 pendingProduct = product;
@@ -64,18 +66,27 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderProducts() {
         const criteria = sortCriteria.value;
         const order = sortOrder.value;
-        products.sort((a, b) => {
+        const searchTerm = searchInput.value.toLowerCase();
+
+        const filteredProducts = products.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm)
+        );
+
+        filteredProducts.sort((a, b) => {
             let comparison = 0;
             if (criteria === "name") {
                 comparison = a.name.localeCompare(b.name);
             } else if (criteria === "price") {
                 comparison = a.price - b.price;
+            } else if (criteria === "rating") {
+                comparison = a.rating - b.rating;
             }
             return order === "asc" ? comparison : -comparison;
         });
 
         productList.innerHTML = "";
-        products.forEach((product, index) => {
+        filteredProducts.forEach((product, index) => {
             const productDiv = document.createElement("div");
             productDiv.className = "product";
 
@@ -85,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
                     <p>Price: $${product.price.toFixed(2)}</p>
+                    <p>Rating: ${product.rating}/5</p>
                 </div>
                 <div class="actions">
                     <button class="edit" data-index="${index}">Edit</button>
@@ -107,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("productName").value = product.name;
         document.getElementById("productDescription").value = product.description;
         document.getElementById("productPrice").value = product.price.toFixed(2);
+        document.getElementById("productRating").value = product.rating;
         // Display the current image in the preview area
         imagePreview.innerHTML = `<img src="${product.imageUrl}" alt="${product.name}" style="max-width: 100%; border-radius: 8px;">`;
 
@@ -158,7 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.textContent = "Upload Product"; // Reset button text
     });
 
-    // Handle sort criteria change
+    // Handle sort criteria and search input change
     sortCriteria.addEventListener("change", renderProducts);
     sortOrder.addEventListener("change", renderProducts);
+    searchInput.addEventListener("input", renderProducts);
 });

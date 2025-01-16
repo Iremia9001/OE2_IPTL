@@ -30,6 +30,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="productRating">Rating (1-5):</label>
+                    <input type="number" id="productRating" placeholder="Enter rating" required min="1" max="5" step="1">
+                </div>
+
+                <div class="form-group">
                     <label for="productImage">Product Image:</label>
                     <input type="file" id="productImage" accept="image/*">
                     <div id="imagePreview" class="image-preview"></div>
@@ -37,23 +42,25 @@
 
                 <button type="submit" id="submitBtn">Upload Product</button>
             </form>
-            <div id="message" class="message"></div>
-            <div class="sort-options">
-                <label for="sortCriteria">Sort by:</label>
-                <select id="sortCriteria">
-                    <option value="name">Name</option>
-                    <option value="price">Price</option>
-                </select>
-                <label for="sortOrder">Order:</label>
-                <select id="sortOrder">
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
-                </select>
-            </div>
+        </section>
+
+        <section class="sort-options">
+            <label for="sortCriteria">Sort by:</label>
+            <select id="sortCriteria">
+                <option value="name">Name</option>
+                <option value="price">Price</option>
+                <option value="rating">Rating</option>
+            </select>
+            <label for="sortOrder">Order:</label>
+            <select id="sortOrder">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
         </section>
 
         <section class="product-display">
             <h2>Uploaded Products</h2>
+            <input type="text" id="searchInput" placeholder="Search products...">
             <div id="productList" class="product-list"></div>
         </section>
 
