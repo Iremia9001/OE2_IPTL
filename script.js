@@ -1,12 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("upload-form");
-    const productList = document.getElementById("products");
+    const form = document.getElementById("productForm");
+    const productList = document.getElementById("productList");
     const searchBar = document.getElementById("search-bar");
     const sortNameButton = document.getElementById("sort-name");
     const sortPriceButton = document.getElementById("sort-price");
     const deleteModal = document.getElementById("delete-modal");
     const confirmDeleteButton = document.getElementById("confirm-delete");
     const cancelDeleteButton = document.getElementById("cancel-delete");
+
+    console.log("form:", form);
+    console.log("productList:", productList);
+    console.log("searchBar:", searchBar);
+    console.log("sortNameButton:", sortNameButton);
+    console.log("sortPriceButton:", sortPriceButton);
+    console.log("deleteModal:", deleteModal);
+    console.log("confirmDeleteButton:", confirmDeleteButton);
+    console.log("cancelDeleteButton:", cancelDeleteButton);
+
+    if (!form || !productList) {
+        console.error("One or more elements are missing in the DOM.");
+        return;
+    }
 
     let products = [];
     let productToDelete = null;
@@ -15,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const name = document.getElementById("product-name").value;
-        const description = document.getElementById("product-description").value;
-        const price = parseFloat(document.getElementById("product-price").value);
-        const imageFile = document.getElementById("product-image").files[0];
+        const name = document.getElementById("productName").value;
+        const description = document.getElementById("productDescription").value;
+        const price = parseFloat(document.getElementById("productPrice").value);
+        const imageFile = document.getElementById("productImage").files[0];
 
         if (!imageFile || !["image/jpeg", "image/png"].includes(imageFile.type) || imageFile.size > 5 * 1024 * 1024) {
             alert("Please upload a valid image file (JPEG/PNG, max 5MB).");
@@ -72,26 +86,28 @@ document.addEventListener("DOMContentLoaded", () => {
     confirmDeleteButton.addEventListener("click", () => {
         if (productToDelete !== null) {
             products.splice(productToDelete, 1);
-            productToDelete = null;
             renderProducts();
+            deleteModal.classList.remove("visible");
+            productToDelete = null;
         }
-        deleteModal.classList.remove("visible");
     });
 
     cancelDeleteButton.addEventListener("click", () => {
-        productToDelete = null;
         deleteModal.classList.remove("visible");
+        productToDelete = null;
     });
 
     // Handle search
-    searchBar.addEventListener("input", () => {
-        const query = searchBar.value.toLowerCase();
-        const filteredProducts = products.filter(product =>
-            product.name.toLowerCase().includes(query) ||
-            product.description.toLowerCase().includes(query)
-        );
-        renderFilteredProducts(filteredProducts);
-    });
+    if (searchBar) {
+        searchBar.addEventListener("input", () => {
+            const query = searchBar.value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(query) ||
+                product.description.toLowerCase().includes(query)
+            );
+            renderFilteredProducts(filteredProducts);
+        });
+    }
 
     function renderFilteredProducts(filteredProducts) {
         productList.innerHTML = "";
@@ -116,13 +132,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Handle sorting
-    sortNameButton.addEventListener("click", () => {
-        products.sort((a, b) => a.name.localeCompare(b.name));
-        renderProducts();
-    });
+    if (sortNameButton) {
+        sortNameButton.addEventListener("click", () => {
+            products.sort((a, b) => a.name.localeCompare(b.name));
+            renderProducts();
+        });
+    }
 
-    sortPriceButton.addEventListener("click", () => {
-        products.sort((a, b) => a.price - b.price);
-        renderProducts();
-    });
+    if (sortPriceButton) {
+        sortPriceButton.addEventListener("click", () => {
+            products.sort((a, b) => a.price - b.price);
+            renderProducts();
+        });
+    }
 });
