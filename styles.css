@@ -23,7 +23,7 @@ main {
 }
 
 /* Product Upload Form */
-#product-upload {
+.upload-form {
     margin-bottom: 2rem;
     background: #fff;
     padding: 1rem;
@@ -31,166 +31,187 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#product-upload form {
+.upload-form form {
     display: flex;
     flex-direction: column;
 }
 
-#product-upload label {
-    margin: 0.5rem 0 0.2rem;
-}
-
-#product-upload input,
-#product-upload textarea,
-#product-upload button {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-#product-upload button {
-    background: #0078d4;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-#product-upload button:hover {
-    background: #005a9e;
-}
-
-/* Product List Section */
-#product-list {
-    background: #fff;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#controls {
+.upload-form .form-group {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     margin-bottom: 1rem;
 }
 
-#controls button {
+.upload-form label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.upload-form input,
+.upload-form textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.upload-form textarea {
+    resize: none; /* Prevent dragging */
+    overflow: auto; /* Handle text overflow */
+    height: auto; /* Allow height to adjust based on content */
+    min-height: 100px; /* Set a minimum height */
+}
+
+.upload-form button {
+    padding: 0.5rem;
     background: #0078d4;
     color: white;
-    padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    align-self: flex-start;
 }
 
-#controls button:hover {
-    background: #005a9e;
+.upload-form button:hover {
+    background: #005fa3;
 }
 
-#controls input {
+/* Sort Options */
+.sort-options {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-options label {
+    font-weight: bold;
+}
+
+.sort-options select {
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    flex: 1;
-    margin-left: 1rem;
 }
 
-#products {
-    display: grid;
+/* Product List */
+.product-list {
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
 }
 
 .product {
-    display: flex;
-    gap: 1rem;
+    background: #fff;
     padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background: #f9f9f9;
-    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 .product img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 4px;
+    max-width: 100%;
+    border-radius: 8px;
 }
 
 .product .details {
-    flex: 1;
+    margin-top: 1rem;
 }
 
 .product .actions {
+    margin-top: 1rem;
     display: flex;
-    gap: 0.5rem;
+    gap: 10px;
 }
 
-.product button {
-    background: #e74c3c;
-    color: white;
-    border: none;
+.product .actions button {
     padding: 0.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.product button:hover {
-    background: #c0392b;
-}
-
-/* Modal */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.3s;
-}
-
-.modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.modal button {
-    padding: 0.5rem 1rem;
+    background: #0078d4;
+    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin: 0.5rem;
 }
 
-.modal #confirm-delete {
+.product .actions button:hover {
+    background: #005fa3;
+}
+
+/* Delete Modal */
+#delete-modal,
+#edit-modal {
+    display: none; /* Hide by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#delete-modal.visible,
+#edit-modal.visible {
+    display: block; /* Show when the visible class is added */
+}
+
+#delete-modal .modal-content,
+#edit-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#delete-modal .modal-actions,
+#edit-modal .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#delete-modal .modal-actions button,
+#edit-modal .modal-actions button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#delete-modal .modal-actions .confirm,
+#edit-modal .modal-actions .confirm {
+    background: #d9534f;
+    color: white;
+}
+
+#delete-modal .modal-actions .cancel,
+#edit-modal .modal-actions .cancel {
+    background: #5bc0de;
+    color: white;
+}
+
+/* Additional Styles */
+.modal #confirm-delete,
+.modal #confirm-edit {
     background: #e74c3c;
     color: white;
 }
 
-.modal #confirm-delete:hover {
+.modal #confirm-delete:hover,
+.modal #confirm-edit:hover {
     background: #c0392b;
 }
 
-.modal #cancel-delete {
+.modal #cancel-delete,
+.modal #cancel-edit {
     background: #95a5a6;
     color: white;
 }
 
-.modal #cancel-delete:hover {
+.modal #cancel-delete:hover,
+.modal #cancel-edit:hover {
     background: #7f8c8d;
-}
-
-.modal.visible {
-    visibility: visible;
-    opacity: 1;
 }
