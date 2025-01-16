@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Upload - E-Commerce</title>
+    <title>Product Upload</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,20 +30,59 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="productRating">Rating (1-5):</label>
+                    <input type="number" id="productRating" placeholder="Enter rating" required min="1" max="5" step="1">
+                </div>
+
+                <div class="form-group">
                     <label for="productImage">Product Image:</label>
-                    <input type="file" id="productImage" accept="image/*" required>
+                    <input type="file" id="productImage" accept="image/*">
                     <div id="imagePreview" class="image-preview"></div>
                 </div>
 
                 <button type="submit" id="submitBtn">Upload Product</button>
             </form>
-            <div id="message" class="message"></div>
+        </section>
+
+        <section class="sort-options">
+            <label for="sortCriteria">Sort by:</label>
+            <select id="sortCriteria">
+                <option value="name">Name</option>
+                <option value="price">Price</option>
+                <option value="rating">Rating</option>
+            </select>
+            <label for="sortOrder">Order:</label>
+            <select id="sortOrder">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
         </section>
 
         <section class="product-display">
             <h2>Uploaded Products</h2>
+            <input type="text" id="searchInput" placeholder="Search products...">
             <div id="productList" class="product-list"></div>
         </section>
+
+        <div id="delete-modal" class="delete-modal">
+            <div class="modal-content">
+                <p>Are you sure you want to delete this product?</p>
+                <div class="modal-actions">
+                    <button id="confirm-delete" class="confirm">Delete</button>
+                    <button id="cancel-delete" class="cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit-modal" class="edit-modal">
+            <div class="modal-content">
+                <p>Are you sure you want to save the changes?</p>
+                <div class="modal-actions">
+                    <button id="confirm-edit" class="confirm">Save</button>
+                    <button id="cancel-edit" class="cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="script.js"></script>
 </body>
